@@ -1,0 +1,69 @@
+\documentclass{article}
+
+% Packages
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+
+% Setting format
+\geometry{
+ letterpaper, 
+ margin=1in
+}
+
+% Commands
+\newcommand{\ideas}{\mathcal{I}}
+\newcommand{\sounds}{\mathcal{S}}
+\newcommand{\speak}{\text{speak}}
+\newcommand{\listen}{\text{listen}}
+
+
+\title{Scattered Figs: A Multi-Agent Language Evolution Simulator}
+
+\begin{document}
+\maketitle
+
+\section{Motivation}
+
+
+\section{The Model}
+Language is foremost about communication. At its most basic, we can view communication as a two-step process. In the first, an agent $Ayesha$ has a thought that she wishes to convey which she encodes as vibrations in the air. This is speaking. In the second, another agent $Ben$ decodes the information buzzing in the air and understands the thought in his own mind. This is listening. Following the interaction, we can say that Ayesha's original thought has been reproduced in Ben's mind. Of course, there are certainly philosphical and neurolinguistic debates as to whether this reproduction actually occurs. However, as a rough model of language, this perspective will suffice. We can use this abstract view of human communication to simulate language. 
+
+A critical component for the model seems to be a set of mental constructions, thoughts or concepts that the agents seek to convey and be understood. Hence, the first step in the simulation is to represent the possible mental states of the agents as a finite set of ideas $\ideas$. These are all the possible thoughts that agents can have. Another key aspect of language is the medium into which these ideas are embedded. For humans, this is usually the air that surrounds us. We will model the set of sounds $\sounds$ as some subset of $\mathbb{R}^n$ for some dimension $n$. 
+
+With these sets in mind, the act of speech is a function that encodes an idea into a sound
+$$\text{speak}_{agent}:\ideas\to\sounds $$
+
+And listening takes a sound and creates an idea
+$$\text{listen}_{agent}:\sounds\to\ideas$$
+\textit{A priori} these actions have no relationship with each other. A language is what connects them. If the two agents share a common language, then, according to our abstraction, the act of listening should reproduce the speaker's idea in the listener's mind. Remembering our two people from earlier, this means that after Ayesha translates an idea $i\in\ideas$ into a sound $s = \speak_{Ayesha}(i)$, Ben is able to take the sound and reproduce the original idea by listening $\listen_{Ben}(s) = i$. More succintly, 
+
+\begin{equation}\label{LC}
+\listen_{B} \circ \speak_{A} = \text{Id}_\ideas \hspace{1em}\forall\text{ agents } A, B
+\end{equation}
+The functions $\speak, \listen$ and the language criterion given by $\eqref{LC}$ provide a sufficient mathematical model for the simulation. 
+
+\section{Agents' Neural Architecture}
+TODO: Motivate the choice for representing a sound as a greyscale $d\times d$ image, making $\sounds = [0,1]^{d\times d}$. 
+
+\subsection{Speaking}
+TODO: Talk about the architecture for speaking as a neural network that takes a single input node (that will take on values from $1,...,|\ideas|$) into a $d\times d$ image. 
+
+\subsection{Listening}
+
+\subsubsection*{Language as an Auto-Encoder}
+TODO: Discuss the listening function architecture as a classifier that takes an image and returns  a single number that's supposed to be the label for the original idea. Then, the language criterion tells us that sharing a common language is equivalent to making an auto-encoder using the speech network of one agent and the listening network of another. 
+
+\subsubsection*{Language as a Classifier}
+TODO: Discuss: rather than having the listening network return a single number, it could take an image and return a set of $|\ideas|$ probabilities. The $k^{th}$ probability  would represent the change that the given sound came from the $k^{th}$ idea. Then, the language criterion means that the highest probability idea should be the one that the speaker used to produce the sound. 
+
+\subsubsection*{The Differences between the Two Approaches}
+
+\section{Population-Level Simulation}
+\subsection{Training a Population}
+
+
+
+
+\end{document}
